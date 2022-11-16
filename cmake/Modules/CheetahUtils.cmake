@@ -317,8 +317,8 @@ macro(construct_cheetah_default_triple)
     endif()
     set(CHEETAH_DEFAULT_TARGET_TRIPLE ${CMAKE_C_COMPILER_TARGET})
   else()
-    set(CHEETAH_DEFAULT_TARGET_TRIPLE ${TARGET_TRIPLE} CACHE STRING
-          "Default triple for which cheetah runtime will be built.")
+    set(CHEETAH_DEFAULT_TARGET_TRIPLE ${LLVM_TARGET_TRIPLE} CACHE STRING
+          "Default triple for which cheetah runtime will be built." FORCE)
   endif()
 
   if(DEFINED CHEETAH_TEST_TARGET_TRIPLE)
