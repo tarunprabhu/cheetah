@@ -22,6 +22,18 @@
 #include "pedigree_ext.c"
 #include "worker.h"
 
+/* In LLVM 19 (and probably in later versions as well), EarlyCSE erases types
+   from GEP instructions which leads to structure types being unused and, thus,
+   eliminated from libopencilk-abi.bc. This causes problems in Tapir,
+   specifically in the OpenCilkABI target transforms which expects to find the
+   types for the __cilkrts_stack_frame by name. This function is a hack to force
+   the type to be retained. Other types may need to be added here as well.
+*/
+void hack_prevent_type_elision_in_llvm_ir() {
+  __cilkrts_stack_frame sf;
+  __cilkrts_enter_frame(&sf);
+}
+
 // This variable encodes the alignment of a __cilkrts_stack_frame, both in its
 // value and in its own alignment.  Because LLVM IR does not associate
 // alignments with types, this variable communicates the desired alignment to
